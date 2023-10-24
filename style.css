@@ -1,0 +1,57 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: black;
+    box-sizing: border-box;
+}
+
+#container {
+   text-align: center;
+}
+
+.cell {
+    width: 3vw;
+    height: 2.7vw;
+    background: rgb(126,214,255);
+    background: radial-gradient(circle, rgba(126,214,255,1) 0%, rgba(93,171,255,1) 100%);
+    box-shadow: 0 0 1px 2px #202020;
+    line-height: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    background-size: contain;
+}
+#timer {
+  color : white;
+}
+
+
+/* .cell {
+    border-bottom: 3px solid #215994;
+    background: rgb(126,214,255);
+    background: radial-gradient(circle, rgba(126,214,255,1) 0%, rgba(93,171,255,1) 100%);
+    box-shadow: 0 0 1px 2px #202020;
+  }
+  
+  .cell:active {
+    border-bottom: 0;
+    background-color: #3a8dad;
+    box-shadow: 0 0 1px 2px #202020, inset 0 0 4px 3px #2b5888;
+  }
+  
+  .cell.opened {
+    background: #fff;
+    box-shadow: 0px 0px 1px 1px #000, inset 0 0 7px 1px #818080;
+    transform: scaleY(1) translateY(0);
+  }
+  
+  .cell.isBombFlag {
+    border-bottom-color: #C07208;
+    background: radial-gradient(circle, #FFE560 0%, #f7bb16 100%);
+  }
+  
+  .cell.maybeBombFlag {
+    border-bottom-color: #3c6318;
+    background: radial-gradient(circle, #aaef3f 0%, #8ec554 100%);
+  } */
