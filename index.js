@@ -278,6 +278,22 @@ class MineSweepers {
     }, 1000);
   }
 
+  show(x, y, heso) {
+    setTimeout(() => {
+      console.log("x-", x, "y-", y)
+      let cellId = document.getElementById(`cell${x}-${y}`);
+      if (this.array[x][y].value === 100) {
+        cellId.style.background = "url('./image/download.jpg')";
+        cellId.style.backgroundSize = "contain";
+      } else if (this.array[x][y].value === 0) {
+        cellId.style.background = "white";
+      } else {
+        cellId.innerText = this.array[x][y].value;
+        this.array[x][y].isOpen = true;
+      }
+      cellId.classList.add("border");
+    }, 200 * (heso + 1));
+  }
   showPosition(i, j) {
     let arrX = [-1, 0, 1, 0];
     let arrY = [0, 1, 0, -1];
@@ -287,52 +303,99 @@ class MineSweepers {
     let dem = 0;
     while (dem <= this.row * this.column) {
       let xTop = i + (heso + 1) * arrX[0];
-      let yTop = i + (heso + 1) * arrY[0];
+      let yTop = j + (heso + 1) * arrY[0];
 
       let xRight = i + (heso + 1) * arrX[1];
-      let yRight = i + (heso + 1) * arrY[1];
+      let yRight = j + (heso + 1) * arrY[1];
 
-      let xBottom = i + (heso + 1) * arrX[1];
-      let yBottom = i + (heso + 1) * arrY[1];
+      let xBottom = i + (heso + 1) * arrX[2];
+      let yBottom = j + (heso + 1) * arrY[2];
 
-      let xLeft = i + (heso + 1) * arrX[1];
-      let yLeft = i + (heso + 1) * arrY[1];
-
-      if (checkPositionIsTrue(xTop, yTop)) {
-        setTimeout(() => {
-          let cellId = document.getElementById(`cell${xTop}-${yTop}`);
-          if (this.array[xTop][xTop].value === 100) {
-            cellId.style.background = "url('./image/download.jpg')";
-            cellId.style.backgroundSize = "contain";
-          } else if (this.array[xTop][xTop].value === 0) {
-            cellId.style.background = "white";
-          } else {
-            cellId.innerText = this.array[xTop][xTop].value;
-            this.array[xTop][xTop].isOpen = true;
+      let xLeft = i + (heso + 1) * arrX[3];
+      let yLeft = j + (heso + 1) * arrY[3];
+      if (this.checkPositionIsTrue(xTop, yTop)) {
+        this.show(xTop, yTop, heso);
+        dem++;
+        for (let m = 1; m <= heso; m++) {
+          let yLeftOfTop = yTop - m;
+          let yRightOfTop = yTop + m;
+          if (this.checkPositionIsTrue(xTop, yLeftOfTop)) {
+            this.show(xTop, yLeftOfTop, heso);
+            dem++;
           }
-          cellId.classList.add("border");
-        }, 200 * (heso + 1));
-
-        for (let m = 1; m <= heso; m++) { 
-           let yLeftOfTop = yTop - m;
-           if (this.checkPositionIsTrue(xTop, yLeftOfTop)) {
-            setTimeout(() => {
-              let cellId = document.getElementById(`cell${xTop}-${yLeftOfTop}`);
-              if (this.array[xTop][yLeftOfTop].value === 100) {
-                cellId.style.background = "url('./image/download.jpg')";
-                cellId.style.backgroundSize = "contain";
-              } else if (this.array[xTop][yLeftOfTop].value === 0) {
-                cellId.style.background = "white";
-              } else {
-                cellId.innerText = this.array[xTop][yLeftOfTop].value;
-                this.array[xTop][yLeftOfTop].isOpen = true;
-              }
-              cellId.classList.add("border");
-            }, 200 * (heso + 1));
-           }
+          if (this.checkPositionIsTrue(xTop, yRightOfTop)) {
+            this.show(xTop, yRightOfTop, heso);
+            dem++;
+          }
         }
       }
+
+      if (this.checkPositionIsTrue(xRight, yRight)) {
+        this.show(xRight, yRight, heso);
+        dem++;
+        for (let m = 1; m <= heso; m++) {
+          let xToptofRight = xRight - m;
+          let yRBottomOfTop = xRight + m;
+          if (this.checkPositionIsTrue(xToptofRight, yRight)) {
+            this.show(xToptofRight, yRight, heso);
+            dem++;
+          }
+          if (this.checkPositionIsTrue(yRBottomOfTop, yRight)) {
+            this.show(yRBottomOfTop, yRight, heso);
+            dem++;
+          }
+        }
+      }
+
+      if (this.checkPositionIsTrue(xBottom, yBottom)) {
+        this.show(xBottom, yBottom, heso);
+        dem++;
+        for (let m = 1; m <= heso; m++) {
+          let yLeftOfBottom = yBottom - m;
+          let yRightOfBottom = yBottom + m;
+          if (this.checkPositionIsTrue(xBottom, yLeftOfBottom)) {
+            this.show(xBottom, yLeftOfBottom, heso);
+            dem++;
+          }
+          if (this.checkPositionIsTrue(xBottom, yRightOfBottom)) {
+            this.show(xBottom, yRightOfBottom, heso);
+            dem++;
+          }
+        }
+      }
+
+      if (this.checkPositionIsTrue(xLeft, yLeft)) {
+        this.show(xLeft, yLeft, heso);
+        dem++;
+        for (let m = 1; m <= heso; m++) {
+          let xTopOfLeft = xLeft - m;
+          let xBottomOfLeft = xLeft + m;
+          if (this.checkPositionIsTrue(xTopOfLeft, yLeft)) {
+            this.show(xTopOfLeft, yLeft, heso);
+            dem++;
+          }
+          if (this.checkPositionIsTrue(xBottomOfLeft, yLeft)) {
+            this.show(xBottomOfLeft, yLeft, heso);
+            dem++;
+          }
+        }
+      }
+      
+      for (let m = 1; m <= heso; m++) {
+        for (let k = 0; k < arrX.length; k++) {
+          let xdiagonal = i + heso * diagonalLineX[k];
+          let ydiagonal = j + heso * diagonalLineY[k];
+          if (this.checkPositionIsTrue(xdiagonal, ydiagonal)) {
+            this.show(xdiagonal, ydiagonal, heso);
+            dem++;
+          }
+        }
+      }
+      heso = heso + 1;
     }
+    console.log(heso);
+    console.log(dem);
+
     // while (dem <= this.row * this.column) {
     //   for (let k = 0; k < arrX.length; k++) {
     //     let x = i + arrX[k];
@@ -463,7 +526,7 @@ class MineSweepers {
   }
 
   checkPositionIsTrue(x, y) {
-    if (x >= 0 && y >= 0 && x <= this.row && y <= this.column) {
+    if (x >= 0 && y >= 0 && x < this.row && y < this.column) {
       return true;
     }
     return false;
@@ -482,5 +545,5 @@ document.getElementById("starGame").addEventListener("click", () => {
 });
 
 document.getElementById("showFromPositon").addEventListener("click", () => {
-  game.showPosition(7, 18);
+  game.showPosition(14, 18);
 });
